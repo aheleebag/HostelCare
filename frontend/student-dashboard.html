@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - HostelCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fa;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+        }
+
+        .user-id {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 30px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .tab {
+            padding: 12px 25px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s;
+            color: #666;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-label {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .roommate-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .roommate-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .roommate-info {
+            flex: 1;
+        }
+
+        .roommate-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .roommate-details {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .empty-state-text {
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-right {
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            🏠 HostelCare
+        </div>
+        <div class="nav-right">
+            <div class="user-info">
+                <div class="user-name" id="userName">Loading...</div>
+                <div class="user-id" id="userId"></div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('room')">🏠 My Room</button>
+            <button class="tab" onclick="switchTab('swap')">🔄 Room Swap</button>
+            <button class="tab" onclick="switchTab('complaints')">📝 Complaints</button>
+        </div>
+
+        <!-- Room Details Tab -->
+        <div id="roomTab" class="tab-content active">
+            <div id="roomContent"></div>
+        </div>
+
+        <!-- Room Swap Tab -->
+        <div id="swapTab" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Request Room Swap</h2>
+                </div>
+                <a href="swap-request.html">
+                    <button class="btn btn-primary">➕ Create New Swap Request</button>
+                </a>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">My Swap Requests</h3>
+                <div id="swapRequests"></div>
+            </div>
+        </div>
+
+        <!-- Complaints Tab -->
+        <div id="complaintsTab" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Submit Complaint</h2>
+                </div>
+                <a href="submit-complaint.html">
+                    <button class="btn btn-primary">➕ New Complaint</button>
+                </a>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">My Complaints</h3>
+                <div id="complaintsContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let student = null;
+
+        // Check if student is logged in
+        window.onload = async () => {
+            const studentData = localStorage.getItem('student');
+            if (!studentData) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            student = JSON.parse(studentData);
+            document.getElementById('userName').textContent = student.name;
+            document.getElementById('userId').textContent = student.student_id;
+            
+            loadRoomDetails();
+            loadSwapRequests();
+            loadComplaints();
+        };
+
+        function switchTab(tab) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            
+            // Add active class to selected tab
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
+        }
+
+        async function loadRoomDetails() {
+            try {
+                const response = await fetch(`http://localhost:3000/api/student/${student.student_id}/room`);
+                const data = await response.json();
+                
+                const roomContent = document.getElementById('roomContent');
+                
+                if (!data.allocated) {
+                    roomContent.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🏠</div>
+                            <div class="empty-state-text">No room allocated yet</div>
+                            <p style="color: #999; margin-top: 10px;">Please contact the admin for room allocation.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const room = data.roomDetails;
+                const roommates = data.roommates;
+                
+                roomContent.innerHTML = `
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Room Details</h2>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Hostel Name</div>
+                                <div class="info-value">${room.hostel_name}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Room Number</div>
+                                <div class="info-value">${room.room_number}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Floor</div>
+                                <div class="info-value">Floor ${room.floor}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Room Type</div>
+                                <div class="info-value">${room.room_type}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Occupancy</div>
+                                <div class="info-value">${room.current_occupancy} / ${room.capacity}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Attached Bathroom</div>
+                                <div class="info-value">${room.has_attached_bathroom ? 'Yes ✓' : 'No ✗'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Allocation Date</div>
+                                <div class="info-value">${new Date(room.allocation_date).toLocaleDateString()}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Warden</div>
+                                <div class="info-value">${room.warden_name}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2 class="card-title">Roommates (${roommates.length})</h2>
+                        ${roommates.length > 0 ? roommates.map(mate => `
+                            <div class="roommate-card">
+                                <div class="roommate-avatar">${mate.name.charAt(0)}</div>
+                                <div class="roommate-info">
+                                    <div class="roommate-name">${mate.name}</div>
+                                    <div class="roommate-details">${mate.department} - Year ${mate.year}</div>
+                                    <div class="roommate-details">📞 ${mate.phone} | ✉️ ${mate.email}</div>
+                                </div>
+                            </div>
+                        `).join('') : '<div class="empty-state"><p>No roommates assigned yet</p></div>'}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading room details:', error);
+            }
+        }
+
+        async function loadSwapRequests() {
+            try {
+                const response = await fetch(`http://localhost:3000/api/student/${student.student_id}/swap-requests`);
+                const requests = await response.json();
+                
+                const container = document.getElementById('swapRequests');
+                
+                if (requests.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><p>No swap requests found</p></div>';
+                    return;
+                }
+                
+                container.innerHTML = requests.map(req => {
+                    const statusColor = req.status === 'Pending' ? 'warning' : 
+                                      req.status === 'Approved' ? 'success' : 'danger';
+                    const isRequester = req.requester_id === student.student_id;
+                    
+                    return `
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <strong>${isRequester ? 'Requested swap with' : 'Swap requested by'}: ${isRequester ? req.target_name : req.requester_name}</strong>
+                                    <div style="color: #666; font-size: 0.9em; margin-top: 5px;">
+                                        ${req.requester_hostel} - Room ${req.requester_room} ↔️ ${req.target_hostel} - Room ${req.target_room}
+                                    </div>
+                                </div>
+                                <span class="badge badge-${statusColor}">${req.status}</span>
+                            </div>
+                            <div><strong>Reason:</strong> ${req.reason}</div>
+                            <div style="color: #666; font-size: 0.85em; margin-top: 10px;">
+                                Requested on: ${new Date(req.request_date).toLocaleDateString()}
+                            </div>
+                            ${req.admin_remarks ? `<div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px;"><strong>Admin Remarks:</strong> ${req.admin_remarks}</div>` : ''}
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading swap requests:', error);
+            }
+        }
+
+        async function loadComplaints() {
+            try {
+                const response = await fetch(`http://localhost:3000/api/student/${student.student_id}/complaints`);
+                const complaints = await response.json();
+                
+                const container = document.getElementById('complaintsContent');
+                
+                if (complaints.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><p>No complaints submitted</p></div>';
+                    return;
+                }
+                
+                container.innerHTML = complaints.map(complaint => {
+                    const statusColor = complaint.status === 'Pending' ? 'warning' : 
+                                       complaint.status === 'Resolved' ? 'success' : 'danger';
+                    const priorityColor = complaint.priority === 'High' || complaint.priority === 'Urgent' ? 'danger' : 
+                                         complaint.priority === 'Medium' ? 'warning' : 'success';
+                    
+                    return `
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <strong>${complaint.subject}</strong>
+                                    <div style="color: #666; font-size: 0.9em; margin-top: 5px;">
+                                        Category: ${complaint.category}
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="badge badge-${statusColor}">${complaint.status}</span>
+                                    <span class="badge badge-${priorityColor}">${complaint.priority}</span>
+                                </div>
+                            </div>
+                            <div style="margin: 15px 0;">${complaint.description}</div>
+                            <div style="color: #666; font-size: 0.85em;">
+                                Submitted on: ${new Date(complaint.complaint_date).toLocaleDateString()}
+                            </div>
+                            ${complaint.admin_response ? `
+                                <div style="margin-top: 15px; padding: 15px; background: #e7f3ff; border-radius: 8px; border-left: 4px solid #667eea;">
+                                    <strong>Admin Response:</strong>
+                                    <div style="margin-top: 5px;">${complaint.admin_response}</div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading complaints:', error);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('student');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
